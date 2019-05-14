@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ `xdpyinfo | grep dimensions | sed -r 's/^[^0-9]*([0-9]+).*$/\1/'` -ge 192 ] ; then
+if [ `xdpyinfo | grep resolution | sed -r 's/^[^0-9]*([0-9]+).*$/\1/'` -ge 192 ] ; then
     export GDK_SCALE=2
     export QT_AUTO_SCREEN_SCALE_FACTOR=1
 fi
