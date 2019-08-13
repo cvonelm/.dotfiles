@@ -1,8 +1,0 @@
-#Packets that need to be installed for this set of .dotfiles to work
-xorg-xdpyinfo
-xorg-xrandr
-light
-feh
-vim 
-i3
-alacritty

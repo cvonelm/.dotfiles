@@ -3,10 +3,12 @@
 if [ `xdpyinfo | grep resolution | sed -r 's/^[^0-9]*([0-9]+).*$/\1/'` -ge 192 ] ; then
     export GDK_SCALE=2
     export QT_AUTO_SCREEN_SCALE_FACTOR=1
+    userresources=$HOME/.Xresources.hidpi
+else
+    userresources=$HOME/.Xresources
 fi
 
 
-userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
 sysresources=/etc/X11/xinit/.Xresources
 sysmodmap=/etc/X11/xinit/.Xmodmap
