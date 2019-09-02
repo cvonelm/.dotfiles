@@ -1,0 +1,12 @@
+#!/bin/sh
+#Rudimentary tool to copy global configs between machines
+#Does not delete stuff because i dont want to accidently delete my root
+if [ "$EUID" -ne 0  ]
+      then echo "Please run as root"
+            exit
+fi
+
+cp -r global-files/* /
+
+systemctl start issue
+systemctl enable issue
