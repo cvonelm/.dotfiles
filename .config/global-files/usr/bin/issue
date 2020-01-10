@@ -1,0 +1,5 @@
+#!/bin/sh
+truncate -s 0 /etc/issue
+toilet --rainbow  -w 1000 -f ascii12 `hostname` > /etc/issue
+
+echo "$(tput bold)$(fortune)$(tput sgr0)" >> /etc/issue

@@ -19,8 +19,8 @@ exec "setxkbmap -option 'grp:sclk_toggle'"
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:DejaVu Sans Mono 8
-for_window [class=".*"] border pixel 0
+font pango:sans 9
+
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
@@ -33,7 +33,7 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec alacritty
-
+bindsym $mod+Shift+x exec i3lock
 # kill focused window
 bindsym $mod+Shift+q kill
 
@@ -149,7 +149,7 @@ mode "resize" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
-
+default_border none
 bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
@@ -176,5 +176,6 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 # Make the currently focused window a scratchpad
 bindsym $mod+Shift+minus move scratchpad
+
 # Show the first scratchpad window
 bindsym $mod+minus scratchpad show

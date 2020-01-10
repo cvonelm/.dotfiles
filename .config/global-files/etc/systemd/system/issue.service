@@ -1,0 +1,9 @@
+[Unit]
+Description=Generates /etc/issue from fortune
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/issue
+
+[Install]
+WantedBy=multi-user.target
