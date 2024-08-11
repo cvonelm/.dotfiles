@@ -1,0 +1,3 @@
+# save them joules
+# turn off screen and lock after 300 seconds
+timeout 300 'swaylock -f && swaymsg "output * power off"' resume 'swaymsg "output * power on"'

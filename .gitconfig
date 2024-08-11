@@ -1,0 +1,15 @@
+[user]
+    # this me, hello!
+    name = Christian von Elm
+	email = christian.von_elm@tu-dresden.de
+[core]
+    # use the good(tm) editor even if EDIT and VISUAL
+    # should have taken care of that
+	editor = nvim
+[push]
+	autoSetupRemote = true
+[merge]
+    # use the good(tm) editor for diffs too
+	tool = nvimdiff
+[init]
+	defaultBranch = main

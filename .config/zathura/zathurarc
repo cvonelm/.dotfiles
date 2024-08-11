@@ -1,0 +1,4 @@
+set database "sqlite"
+# Please give me the default clipboard, no one uses that
+# weird one (primary?) that is used otherwise
+set selection-clipboard "clipboard"
