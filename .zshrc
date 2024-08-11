@@ -71,6 +71,8 @@ bindkey "^[[B" down-line-or-beginning-search # Down
 
 alias cppformat='find -name \*.h -o -name \*.hpp -o -name \*.cpp -o -name \*.c | xargs clang-format --style=file -i'
 
+alias dotfiles='/usr/bin/git --git-dir="$HOME/sw/.dotfiles/" --work-tree="$HOME"'
+
 # smart cd function, allows switching to /etc when running 'cd /etc/fstab'
 function cd () {
     if (( ${#argv} == 1 )) && [[ -f ${1} ]]; then
@@ -109,4 +111,4 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
-PS1="$USER@$HOST:$PWD # "
+PROMPT='%~ %# '
