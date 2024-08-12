@@ -32,6 +32,7 @@ output DP-4 transform 270
 output DP-3 pos 1050,0
 output DP-5 pos 2970,0
 
+workspace 10 output eDP-1
 workspace 1 output DP-4 eDP-1
 workspace 2 output DP-4 eDP-1
 workspace 3 output DP-4 eDP-1
@@ -41,7 +42,6 @@ workspace 6 output DP-3 eDP-1
 workspace 7 output DP-5 eDP-1
 workspace 8 output DP-5 eDP-1
 workspace 9 output DP-5 eDP-1
-
 # Kill focused window
 bindsym $mod+Shift+q kill
 
