@@ -1,7 +1,7 @@
 include /etc/sway/config.d/50-systemd-user.conf
 
 set $mod Mod1
-
+mouse_warping container
 # Home row direction keys, like vim
 set $left h
 set $down j
