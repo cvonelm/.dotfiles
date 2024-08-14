@@ -118,6 +118,7 @@ bindsym $mod+Shift+minus move scratchpad
 
 bindsym $mod+minus scratchpad show
 
+seat * hide_cursor 1000
 input * {
     xkb_layout us,de
     xkb_options grp:rctrl_toggle
