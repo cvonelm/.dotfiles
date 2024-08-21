@@ -13,3 +13,5 @@
 	tool = nvimdiff
 [init]
 	defaultBranch = main
+[alias]
+	pfusch = push --force
