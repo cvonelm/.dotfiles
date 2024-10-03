@@ -118,7 +118,7 @@ bindsym $mod+Shift+minus move scratchpad
 
 bindsym $mod+minus scratchpad show
 
-seat * hide_cursor 1000
+#seat * hide_cursor 1000
 input * {
     xkb_layout us,de
     xkb_options grp:rctrl_toggle
@@ -129,5 +129,9 @@ bar {
     swaybar_command waybar
 }
 
+client.focused #ffffff #ffffff #000000
+client.focused_inactive #ffffff #ffffff #000000
+client.unfocused #000000 #000000 #ffffff
 exec swaync
 exec swayidle -w
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &

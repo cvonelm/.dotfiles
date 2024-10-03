@@ -69,7 +69,7 @@ zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
 
-alias dotfiles='/usr/bin/git --git-dir="$HOME/sw/.dotfiles/" --work-tree="$HOME"'
+alias dotfiles='/usr/bin/git --git-dir="$HOME/dev/.dotfiles/" --work-tree="$HOME"'
 
 # smart cd function, allows switching to /etc when running 'cd /etc/fstab'
 function cd () {
