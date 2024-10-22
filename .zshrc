@@ -97,6 +97,8 @@ alias ip='command ip -color=auto'
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 
+
+alias vim='nvim'
 # color setup for ls:
 which dircolors &> /dev/null && eval $(dircolors -b)
 
