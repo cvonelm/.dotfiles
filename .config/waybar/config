@@ -37,12 +37,9 @@
         "format-plugged": "{capacity}% [P]",
     },
     "custom/media": {
-        "format": "{icon} {}",
+        "format": "🎜  {}",
         "return-type": "json",
         "max-length": 80,
-        "format-icons": {
-            "default": "🎜"
-        },
         "escape": true,
         "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
     }
