@@ -5,7 +5,7 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
     font-family: IBMPlexMono, FontAwesome, Helvetica, Arial, sans-serif;
-    font-size: 12pt;
+    font-size: 10pt;
 }
 
 window#waybar {
@@ -34,7 +34,7 @@ button:hover {
 }
 
 #workspaces button {
-    padding: 0 5px;
+    padding: 0 2px;
     background-color: transparent;
     color: #ffffff;
 }
@@ -78,18 +78,12 @@ button:hover {
 #idle_inhibitor,
 #scratchpad,
 #mpd {
-    padding: 0 10px;
     color: #ffffff;
 }
 
 #custom-media {
  font-size: 10pt;
 }
-#window,
-#workspaces {
-    margin: 0 4px;
-}
-
 /* If workspaces is the leftmost module, omit left margin */
 .modules-left > widget:first-child > #workspaces {
     margin-left: 0;
