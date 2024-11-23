@@ -24,9 +24,6 @@ setopt nobeep
 #move the cursor to the end of the word if a completion is performed inside a word
 setopt always_to_end
 
-#immediately show menu complete
-setopt menu_complete
-
 # don't push the same dir twice.
 setopt pushd_ignore_dups
 
