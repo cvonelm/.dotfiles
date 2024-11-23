@@ -26,6 +26,9 @@ bindsym Pause exec swaylock
 # Terminal
 bindsym $mod+Return exec foot
 
+bindsym XF86AudioMute exec pamixer -t
+bindsym XF86AudioLowerVolume exec pamixer -d 5
+bindsym XF86AudioRaiseVolume exec pamixer -i 5
 #TODO: Automate this for different tools
 output DP-4 pos 0,0
 output DP-4 transform 270
