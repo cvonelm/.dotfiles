@@ -8,6 +8,7 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'lambdalisue/vim-suda'
 " Vimwiki for ... well ... a wiki
 Plug 'vimwiki/vimwiki'
 " Telescope for contextual search. brings up a big window in which you can 
