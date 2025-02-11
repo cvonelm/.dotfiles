@@ -124,6 +124,10 @@ bindsym $mod+Shift+minus move scratchpad
 
 bindsym $mod+minus scratchpad show
 
+bindsym XF86MonBrightnessDown  exec brightnessctl s 10%-
+bindsym XF86MonBrightnessUp  exec brightnessctl s 10%+
+bindswitch lid:toggle output eDP-1 power toggle
+
 #seat * hide_cursor 1000
 input * {
     xkb_layout us,de
