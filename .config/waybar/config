@@ -8,7 +8,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/scratchpad", "custom/media"],
     "modules-center": ["sway/window"],
-    "modules-right": ["clock", "battery", "sway/language",  "tray"],
+    "modules-right": ["custom/layout", "clock", "battery", "sway/language",  "tray"],
 
     // Modules configuration
      "sway/workspaces": {
@@ -42,5 +42,11 @@
         "max-length": 80,
         "escape": true,
         "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-    }
+    },
+    "custom/layout": {
+        "format" : "{}",
+        "return-type": "json",
+        "escape": "true",
+        "exec": "$HOME/.config/waybar/layout.py"
+        }
 }
