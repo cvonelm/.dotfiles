@@ -1,21 +1,18 @@
 " This config uses vim plug for plugin management
 call plug#begin()
-" Language Server Protocol for error checking
-Plug 'neovim/nvim-lspconfig'
 " Stuff for autosuggestions 
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Vimwiki for ... well ... a wiki
 Plug 'vimwiki/vimwiki'
 " Telescope for contextual search. brings up a big window in which you can 
 " fuzzy find files, buffers, or file content
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-" Tree-sitter for syntax highlighting
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 call plug#end()
 
@@ -41,6 +38,23 @@ set background=dark
 syntax enable
 colorscheme foo
 
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': 'md'}]
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 lua <<EOF
 local cmp = require'cmp'
 
@@ -75,18 +89,6 @@ cmp.setup.cmdline(':', {
         })
       })
 
--- Enable LSPs for
--- C/C++: clangd
--- Rust: rust_analyzer
--- Python: pyright
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-require('lspconfig')['clangd'].setup {
-	capabilities = capabilities
-}
-require('lspconfig').rust_analyzer.setup({})
-require('lspconfig').pyright.setup({})
-
-
 local telescope = require('telescope').setup({
 defaults = {
     -- Dont want the preview pane
@@ -106,25 +108,5 @@ vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 -- /fb -> find in open buffer names
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-
-require'nvim-treesitter.configs'.setup {
-  -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
-
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
-
-  -- Automatically install missing parsers when entering buffer
-  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-  auto_install = true,
-
-  -- List of parsers to ignore installing (or "all")
-  ignore_install = { "javascript" },
-
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-  },
-}
 EOF
 
