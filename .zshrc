@@ -110,3 +110,9 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
 PROMPT='%~ %# '
+
+# Called when executing a command
+function preexec {
+    print -Pn "\e]0;${(q)1}\e\\"
+}
+
