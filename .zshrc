@@ -96,6 +96,7 @@ alias egrep='egrep --color=auto'
 
 
 alias vim='nvim'
+alias sudo='sudo-rs'
 # color setup for ls:
 which dircolors &> /dev/null && eval $(dircolors -b)
 
