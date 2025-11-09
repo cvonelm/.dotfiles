@@ -2,12 +2,12 @@
 //
 // workspaces scratchpad and current playing song (using mediaplayer.py) on the left
 // clock battery (if existing) keyboard langauge and tray on the right
-
 {
     "spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
-    "modules-left": ["sway/workspaces", "sway/scratchpad", "custom/media"],
-    "modules-center": ["sway/window"],
+    "modules-left": ["sway/workspaces", "network", "sway/scratchpad", "custom/media"],
+    "modules-center": [],
+    "height": 5,
     "modules-right": ["custom/layout", "clock", "battery", "sway/language",  "tray"],
 
     // Modules configuration
@@ -48,5 +48,13 @@
         "return-type": "json",
         "escape": "true",
         "exec": "$HOME/.config/waybar/layout.py"
-        }
+        },
+    "network": {
+        "format-connected": "",
+        "format-wifi": "",
+        "format-ethernet": "",
+        "tooltip-format-ethernet": "{ifname}: {ipaddr}\nUp: {bandwidthUpBits}\nDown: {bandwidthDownBits}",
+        "tooltip-format-wifi": "{essid} {signaldBm} dB\n{ipaddr}",
+        "format-disconnected": "⚠",
+    }
 }

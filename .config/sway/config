@@ -10,8 +10,6 @@ set $right l
 
 default_border none
 font "IBM Plex Mono" 12
-output * bg #000000 solid_color
-
 
 # launcher
 set $menu rofi -terminal foot -font "IBM Plex Mono 12"  -show combi -modes combi -combi-modes "window,drun"
@@ -143,5 +141,8 @@ client.focused #ffffff #ffffff #000000
 client.focused_inactive #ffffff #ffffff #000000
 client.unfocused #000000 #000000 #ffffff
 exec swaync
+exec swww-daemon
+exec bash /home/cvonelm/screenshots/landscape.sh
+exec bash /home/cvonelm/screenshots/portrait.sh
 exec swayidle -w
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &

@@ -13,7 +13,7 @@ Plug 'vimwiki/vimwiki'
 " fuzzy find files, buffers, or file content
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-
+Plug 'EdenEast/nightfox.nvim'
 call plug#end()
 
 " Use wayland clipboard. Useful for copying stuff to and fro browser windows
@@ -30,13 +30,14 @@ set shiftwidth=4
 set tabstop=4
 set softtabstop=-1
 set expandtab
+set noswapfile
 set smarttab
 set t_Co=256
 
 " foo is a dark theme
-set background=dark
+set background=light
 syntax enable
-colorscheme foo
+colorscheme dayfox
 
 let g:vimwiki_list = [{'path': '~/vimwiki/',
                       \ 'syntax': 'markdown', 'ext': 'md'}]
