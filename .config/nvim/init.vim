@@ -1,12 +1,6 @@
 " This config uses vim plug for plugin management
 call plug#begin()
 " Stuff for autosuggestions 
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/nvim-cmp'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Vimwiki for ... well ... a wiki
 Plug 'vimwiki/vimwiki'
 " Telescope for contextual search. brings up a big window in which you can 
@@ -14,6 +8,12 @@ Plug 'vimwiki/vimwiki'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'EdenEast/nightfox.nvim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
 call plug#end()
 
 " Use wayland clipboard. Useful for copying stuff to and fro browser windows
@@ -34,31 +34,14 @@ set noswapfile
 set smarttab
 set t_Co=256
 
-" foo is a dark theme
 set background=light
 syntax enable
 colorscheme dayfox
 
 let g:vimwiki_list = [{'path': '~/vimwiki/',
                       \ 'syntax': 'markdown', 'ext': 'md'}]
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-" Make <CR> to accept selected completion item or notify coc.nvim to format
-" <C-g>u breaks current undo, please make your own choice
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
 lua <<EOF
-local cmp = require'cmp'
-
 -- Modern programming language begins here
 -- TODO: convert stuff further up to Lua
 
@@ -71,24 +54,8 @@ vim.g.editorconfig = true
 
 -- Magic to get autosuggestions in a little list besides the cursor
 vim.opt.completeopt = "menu,menuone,noselect"
-cmp.setup({
-	snippet = {
-	expand = function(args)
-	vim.snippet.expand(args.body)
-	end,
-	},
-	window = {},
-	mapping = cmp.mapping.preset.insert({}),
-	sources = cmp.config.sources({{name = 'nvim_lsp'}})
-})
-cmp.setup.cmdline(':', {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { name = 'path' }
-        }, {
-          { name = 'cmdline' }
-        })
-      })
+
+vim.diagnostic.config({ virtual_text = false, virtual_lines = { current_line = true }, })
 
 local telescope = require('telescope').setup({
 defaults = {
@@ -102,6 +69,9 @@ defaults = {
     file_ignore_patterns = { "build", "libs" }
 }})
 
+vim.lsp.config('clangd', {})
+vim.lsp.enable('clangd')
+
 local builtin = require('telescope.builtin')
 -- /ff -> find in file names
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
@@ -109,5 +79,50 @@ vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 -- /fb -> find in open buffer names
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+
+local cmp = require'cmp' 
+cmp.setup({
+    snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
+      end,
+    },
+    window = {
+      -- completion = cmp.config.window.bordered(),
+      -- documentation = cmp.config.window.bordered(),
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    ['<Tab>'] = function(fallback)
+      if not cmp.select_next_item() then
+        if vim.bo.buftype ~= 'prompt' and has_words_before() then
+          cmp.complete()
+        else
+          fallback()
+        end
+      end
+    end,
+
+    ['<S-Tab>'] = function(fallback)
+      if not cmp.select_prev_item() then
+        if vim.bo.buftype ~= 'prompt' and has_words_before() then
+          cmp.complete()
+        else
+          fallback()
+        end
+      end
+    end,
+    }),
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+    }, {
+      { name = 'buffer' },
+    })
+})
 EOF
 
