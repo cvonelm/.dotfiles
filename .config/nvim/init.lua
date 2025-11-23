@@ -58,6 +58,8 @@ defaults = {
 vim.lsp.config('clangd', {})
 vim.lsp.enable('clangd')
 vim.lsp.enable('basedpyright')
+vim.lsp.config('texlab', {})
+vim.lsp.enable('texlab')
 
 local builtin = require('telescope.builtin')
 -- /ff -> find in file names
