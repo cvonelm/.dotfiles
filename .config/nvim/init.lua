@@ -1,49 +1,35 @@
-" This config uses vim plug for plugin management
-call plug#begin()
-" Stuff for autosuggestions 
-" Vimwiki for ... well ... a wiki
-Plug 'vimwiki/vimwiki'
-" Telescope for contextual search. brings up a big window in which you can 
-" fuzzy find files, buffers, or file content
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'EdenEast/nightfox.nvim'
-Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/nvim-cmp'
-call plug#end()
+local Plug = vim.fn['plug#']
 
-" Use wayland clipboard. Useful for copying stuff to and fro browser windows
-set clipboard=unnamedplus
+vim.call('plug#begin')
+-- Vimwiki for ... well ... a wiki
+Plug('vimwiki/vimwiki')
+-- Telescope for contextual search. brings up a big window in which you can 
+-- fuzzy find files, buffers, or file content
+Plug('nvim-lua/plenary.nvim')
+Plug('nvim-telescope/telescope.nvim')
+Plug('EdenEast/nightfox.nvim')
+Plug('neovim/nvim-lspconfig')
+Plug('hrsh7th/cmp-nvim-lsp')
+Plug('hrsh7th/cmp-buffer')
+Plug('hrsh7th/cmp-path')
+Plug('hrsh7th/cmp-cmdline')
+Plug('hrsh7th/nvim-cmp')
+vim.call('plug#end')
 
-" Display relative numbering on the left hand side. Makes jumping around with
-" hjkl _much_ easier
-set number
-set relativenumber
+vim.opt.background = "light"
+vim.cmd [[colorscheme  dayfox]]
 
-" Magic to set a sane default for tab expansion, which is 4 spaces
-" should (tm) be overwritten by editorconfig anyways
-set shiftwidth=4
-set tabstop=4
-set softtabstop=-1
-set expandtab
-set noswapfile
-set smarttab
-set t_Co=256
+vim.opt.clipboard = "unnamedplus"
 
-set background=light
-syntax enable
-colorscheme dayfox
+vim.opt.number = true
+vim.opt.relativenumber = true
 
-let g:vimwiki_list = [{'path': '~/vimwiki/',
-                      \ 'syntax': 'markdown', 'ext': 'md'}]
-
-lua <<EOF
--- Modern programming language begins here
--- TODO: convert stuff further up to Lua
+vim.opt.smarttab = true
+vim.opt.swapfile = false
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
 
 -- I prefer the block cursor
 vim.opt.guicursor = ""
@@ -71,6 +57,7 @@ defaults = {
 
 vim.lsp.config('clangd', {})
 vim.lsp.enable('clangd')
+vim.lsp.enable('basedpyright')
 
 local builtin = require('telescope.builtin')
 -- /ff -> find in file names
@@ -124,5 +111,3 @@ cmp.setup({
       { name = 'buffer' },
     })
 })
-EOF
-
