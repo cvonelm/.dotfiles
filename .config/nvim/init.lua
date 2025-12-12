@@ -1,20 +1,15 @@
-local Plug = vim.fn['plug#']
-
-vim.call('plug#begin')
--- Vimwiki for ... well ... a wiki
-Plug('vimwiki/vimwiki')
--- Telescope for contextual search. brings up a big window in which you can 
--- fuzzy find files, buffers, or file content
-Plug('nvim-lua/plenary.nvim')
-Plug('nvim-telescope/telescope.nvim')
-Plug('EdenEast/nightfox.nvim')
-Plug('neovim/nvim-lspconfig')
-Plug('hrsh7th/cmp-nvim-lsp')
-Plug('hrsh7th/cmp-buffer')
-Plug('hrsh7th/cmp-path')
-Plug('hrsh7th/cmp-cmdline')
-Plug('hrsh7th/nvim-cmp')
-vim.call('plug#end')
+vim.pack.add({
+    "https://github.com/vimwiki/vimwiki"}
+)
+vim.pack.add({"https://github.com/nvim-lua/plenary.nvim"})
+vim.pack.add({"https://github.com/nvim-telescope/telescope.nvim"})
+vim.pack.add({"https://github.com/EdenEast/nightfox.nvim"})
+vim.pack.add({"https://github.com/neovim/nvim-lspconfig"})
+vim.pack.add({"https://github.com/hrsh7th/cmp-nvim-lsp"})
+vim.pack.add({"https://github.com/hrsh7th/cmp-buffer"})
+vim.pack.add({"https://github.com/hrsh7th/cmp-path"})
+vim.pack.add({"https://github.com/hrsh7th/cmp-cmdline"})
+vim.pack.add({"https://github.com/hrsh7th/nvim-cmp"})
 
 vim.opt.background = "light"
 vim.cmd [[colorscheme  dayfox]]
@@ -55,11 +50,19 @@ defaults = {
     file_ignore_patterns = { "build", "libs" }
 }})
 
+        vim.g.vimwiki_list = {
+            {
+            path = '~/vimwiki',
+            syntax = 'markdown',
+            ext = '.md',
+            },
+        }
 vim.lsp.config('clangd', {})
 vim.lsp.enable('clangd')
 vim.lsp.enable('basedpyright')
 vim.lsp.config('texlab', {})
 vim.lsp.enable('texlab')
+vim.lsp.enable('cmake')
 
 local builtin = require('telescope.builtin')
 -- /ff -> find in file names
