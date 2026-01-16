@@ -30,19 +30,21 @@ bindsym XF86AudioRaiseVolume exec pamixer -i 5
 #TODO: Automate this for different tools
 output DP-4 pos 0,0
 output DP-4 transform 270
-output DP-3 pos 1050,0
-output DP-5 pos 2970,0
+output DP-5 pos 1080,0
+output DP-3 pos 3000,0
+# Needed if HDMI-A-1 is connected to a Hi-DPI screen
+# output HDMI-A-1 scale 2
 
 workspace 10 output eDP-1
 workspace 1 output DP-4 eDP-1
 workspace 2 output DP-4 eDP-1
 workspace 3 output DP-4 eDP-1
-workspace 4 output DP-3 eDP-1
-workspace 5 output DP-3 HDMI-A-1 eDP-1
-workspace 6 output DP-3 HDMI-A-1 eDP-1
-workspace 7 output DP-5 HDMI-A-1 eDP-1
-workspace 8 output DP-5 HDMI-A-1 eDP-1
-workspace 9 output DP-5 HDMI-A-1 eDP-1
+workspace 4 output DP-5 eDP-1
+workspace 5 output DP-5 HDMI-A-1 eDP-1
+workspace 6 output DP-5 HDMI-A-1 eDP-1
+workspace 7 output DP-3 HDMI-A-1 eDP-1
+workspace 8 output DP-3 HDMI-A-1 eDP-1
+workspace 9 output DP-3 HDMI-A-1 eDP-1
 # Kill focused window
 bindsym $mod+Shift+q kill
 
@@ -142,7 +144,7 @@ client.focused_inactive #ffffff #ffffff #000000
 client.unfocused #000000 #000000 #ffffff
 exec swaync
 exec swww-daemon
-exec bash /home/cvonelm/screenshots/landscape.sh
-exec bash /home/cvonelm/screenshots/portrait.sh
+exec bash /home/cvonelm/Pictures/backgrounds/landscape.sh
+exec bash /home/cvonelm/Pictures/backgrounds/portrait.sh
 exec swayidle -w
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &

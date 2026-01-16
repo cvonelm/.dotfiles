@@ -14,4 +14,4 @@
 [init]
 	defaultBranch = main
 [alias]
-	pfusch = push --force
+    pfusch = push --force-with-lease
