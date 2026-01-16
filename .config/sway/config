@@ -1,40 +1,62 @@
+# Export wayland environment variables that sway
+# annoyingly does not want to set by default
 include /etc/sway/config.d/50-systemd-user.conf
 
+# sway commands begin with Alt
 set $mod Mod1
+
+# Automatically select a container on workspace switch
+
 mouse_warping container
+
 # Home row direction keys, like vim
 set $left h
 set $down j
 set $up k
 set $right l
 
+# No border between windows. The content is border enough
 default_border none
+
 font "IBM Plex Mono" 12
 
-# launcher
+# use rofi as a launcher
 set $menu rofi -terminal foot -font "IBM Plex Mono 12"  -show combi -modes combi -combi-modes "window,drun"
 bindsym $mod+d exec $menu
 
-# Screenshots
+# Screenshots with grim, selected region with slurp
+# Copy image to clipboard
 bindsym Print exec grim -g "$(slurp)" - | wl-copy
-# Emojis
+
+# emoji selection menu, like windows
 bindsym $mod+period exec rofimoji
-# Locking
+# screenlocking (swaylock)
 bindsym Pause exec swaylock
-# Terminal
+# terminal (foot)
 bindsym $mod+Return exec foot
 
+# Bind media keys to mute/louder/quieter
+# TODO is pamixer the way to go with pipewire?
 bindsym XF86AudioMute exec pamixer -t
 bindsym XF86AudioLowerVolume exec pamixer -d 5
 bindsym XF86AudioRaiseVolume exec pamixer -i 5
-#TODO: Automate this for different tools
+
+# Workspace monitor setup, all 1920x1080
+# left: DP-4 (rotated)
+# middle: DP-5
+# right: DP-3
 output DP-4 pos 0,0
 output DP-4 transform 270
 output DP-5 pos 1080,0
 output DP-3 pos 3000,0
-# Needed if HDMI-A-1 is connected to a Hi-DPI screen
-# output HDMI-A-1 scale 2
 
+# Assign workspaces so that 10 (Alt+0) is always on internal monitor
+# 1-3 on the left monitor (or internal)
+# 4-6 on the middle monitor
+# 7-9 on the right monitor
+#
+# if an external monitor is plugged in via the laptop-internal HDMI
+# port, then assign workspaces 5-9
 workspace 10 output eDP-1
 workspace 1 output DP-4 eDP-1
 workspace 2 output DP-4 eDP-1
@@ -45,6 +67,7 @@ workspace 6 output DP-5 HDMI-A-1 eDP-1
 workspace 7 output DP-3 HDMI-A-1 eDP-1
 workspace 8 output DP-3 HDMI-A-1 eDP-1
 workspace 9 output DP-3 HDMI-A-1 eDP-1
+
 # Kill focused window
 bindsym $mod+Shift+q kill
 
@@ -53,28 +76,17 @@ floating_modifier $mod normal
 
 bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
-# Moving around:
 # Move your focus around
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
 bindsym $mod+$up focus up
 bindsym $mod+$right focus right
-# Or use $mod+[up|down|left|right]
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
 
 # Move the focused window with the same, but add Shift
 bindsym $mod+Shift+$left move left
 bindsym $mod+Shift+$down move down
 bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$right move right
-# Ditto, with arrow keys
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
 
 # Workspaces:
 # Switch to workspace
@@ -88,7 +100,9 @@ bindsym $mod+7 workspace number 7
 bindsym $mod+8 workspace number 8
 bindsym $mod+9 workspace number 9
 bindsym $mod+0 workspace number 10
-# Move focused container to workspace
+
+# Move focused container to workspace.
+# Move focus with it.
 bindsym $mod+Shift+1 move container to workspace number 1; workspace number 1
 bindsym $mod+Shift+2 move container to workspace number 2; workspace number 2
 bindsym $mod+Shift+3 move container to workspace number 3; workspace number 3
@@ -99,10 +113,11 @@ bindsym $mod+Shift+7 move container to workspace number 7; workspace number 7
 bindsym $mod+Shift+8 move container to workspace number 8; workspace number 8
 bindsym $mod+Shift+9 move container to workspace number 9; workspace number 9
 bindsym $mod+Shift+0 move container to workspace number 10; workspace number 10
-# Note: workspaces can have any name you want, not just numbers.
-# We just use 1-10 as the default.
 
+# Horizontal split
 bindsym $mod+b splith
+
+# Vertical split
 bindsym $mod+v splitv
 bindsym $mod+a focus parent
 bindsym $mod+s focus child
@@ -124,15 +139,18 @@ bindsym $mod+Shift+minus move scratchpad
 
 bindsym $mod+minus scratchpad show
 
+# Bind brightness media keys.
 bindsym XF86MonBrightnessDown  exec brightnessctl s 10%-
 bindsym XF86MonBrightnessUp  exec brightnessctl s 10%+
+
+# Turn of internal display if laptop is closed
 bindswitch lid:toggle output eDP-1 power toggle
 
-#seat * hide_cursor 1000
+# US and German keyboard layouts
+# use right Ctrl for toggling between them
 input * {
     xkb_layout us,de
     xkb_options grp:rctrl_toggle
-
 }
 
 bar {
@@ -142,9 +160,15 @@ bar {
 client.focused #ffffff #ffffff #000000
 client.focused_inactive #ffffff #ffffff #000000
 client.unfocused #000000 #000000 #ffffff
+
+# Notifications
 exec swaync
+# Background image
 exec swww-daemon
+# Cycling through background images
 exec bash /home/cvonelm/Pictures/backgrounds/landscape.sh
 exec bash /home/cvonelm/Pictures/backgrounds/portrait.sh
+# Lock and blank after inactivity tool
 exec swayidle -w
+# Graphical sudo
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &

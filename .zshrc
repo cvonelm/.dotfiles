@@ -1,24 +1,37 @@
 # private stuff
 source $HOME/.zprofile
 
+# Append to history instead of overwriting it
 setopt append_history
+# Write comands to history
 setopt share_history
+# Also write timestamps into history
 setopt extended_history
+# If a command begins with a space, don't put it
+# into the history
 setopt histignorespace
 
+# If you type a directory as a command, cd to it
 setopt auto_cd
 
+# Use #,?,^ for filename extension
 setopt extended_glob
 
+# Use long format for job notifications
 setopt longlistjobs
 
+# Immediately print status of background jobs
 setopt notify
 
+# Reduce false positives on completion
 setopt hash_list_all
 
+# When <Tab> in the middle of a work, expand it
 setopt completeinword
 
+# Don't send HUP to jobs on shell exit
 setopt nohup
+# Don't beep at me
 setopt nobeep
 
 #move the cursor to the end of the word if a completion is performed inside a word
@@ -49,16 +62,17 @@ for mod in parameter complist deltochar mathfunc ; do
     zmodload  zsh/${mod} 2>/dev/null
 done && builtin unset -v mod
 
-# completion system
+# init completion system
 autoload compinit
 typeset -a tmp
 zstyle -a ':grml:completion:compinit' arguments tmp
 compinit -d ${HOME}/.zcompdump "${tmp[@]}"
 unset tmp
 
+# vim-key line editing
 bindkey -v
 
-# Custom widgets:
+# Move history on arrow keys.
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 zle -N up-line-or-beginning-search
@@ -66,6 +80,7 @@ zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
 
+# dotfiles add/commit/foo to interact with the .dotfiles repo
 alias dotfiles='/usr/bin/git --git-dir="$HOME/dev/.dotfiles/" --work-tree="$HOME"'
 
 # smart cd function, allows switching to /etc when running 'cd /etc/fstab'
@@ -79,6 +94,7 @@ function cd () {
     fi
 }
 
+# All the color please
 alias ls="command ls -v --color=auto"
 #a1# List all files, with colors (\kbd{ls -la \ldots})
 alias la="command ls -la -v --color=auto"
@@ -88,15 +104,14 @@ alias ll="command ls -l -v --color=auto"
 alias lh="command ls -hAl -v --color=auto"
 #a1# List files with long colored list, append qualifier to filenames (\kbd{ls -l \ldots})\\&\quad(\kbd{/} for directories, \kbd{@} for symlinks ...)
 alias l="command ls -l -v --color=auto"
-
 alias ip='command ip -color=auto'
-
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 
 
 alias vim='nvim'
 alias sudo='sudo-rs'
+
 # color setup for ls:
 which dircolors &> /dev/null && eval $(dircolors -b)
 
@@ -109,9 +124,10 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
+# Very simple [filename ]# prompt
 PROMPT='%~ %# '
 
-# Called when executing a command
+# report command name to terminal emulator on execute
 function preexec {
     print -Pn "\e]0;${(q)1}\e\\"
 }

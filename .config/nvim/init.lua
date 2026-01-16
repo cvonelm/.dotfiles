@@ -1,33 +1,55 @@
-vim.pack.add({
-    "https://github.com/vimwiki/vimwiki"}
-)
+-- This makes use of vim.pack, which is as of january 2026
+-- not in a neovim release, so this requires neovim from git
+
+-- a little personal wiki
+vim.pack.add({"https://github.com/vimwiki/vimwiki"})
+-- better code parsing -> better highlighting
 vim.pack.add({"https://github.com/nvim-treesitter/nvim-treesitter"})
+-- a library of helpers. Used by telescope
 vim.pack.add({"https://github.com/nvim-lua/plenary.nvim"})
+-- a pop up fuzzy-finder window provider
+-- provides (fuzzy) search for files, buffers and in files
 vim.pack.add({"https://github.com/nvim-telescope/telescope.nvim"})
+-- dayfox from nightfox is my curren theme
 vim.pack.add({"https://github.com/EdenEast/nightfox.nvim"})
+-- ready-made LSP configs for every language one can ever need
 vim.pack.add({"https://github.com/neovim/nvim-lspconfig"})
+-- nvim autocompletion
+-- TODO is this still needed? vim.cmp exists
 vim.pack.add({"https://github.com/hrsh7th/cmp-nvim-lsp"})
 vim.pack.add({"https://github.com/hrsh7th/cmp-buffer"})
 vim.pack.add({"https://github.com/hrsh7th/cmp-path"})
 vim.pack.add({"https://github.com/hrsh7th/cmp-cmdline"})
 vim.pack.add({"https://github.com/hrsh7th/nvim-cmp"})
+-- highlighting and all the shebang for markdown code blocks
 vim.pack.add({"https://github.com/jmbuhr/otter.nvim"})
+-- support for the coolest way of interactively writing data
+-- analysis and text.
 vim.pack.add({"https://github.com/quarto-dev/quarto-nvim"})
 
+-- light colourscheme all the way
 vim.opt.background = "light"
 vim.cmd [[colorscheme  dayfox]]
 
+-- use system clipboard for vim
+-- allows y -> Ctrl-V in firefox and back
 vim.opt.clipboard = "unnamedplus"
 
+-- number the lines on the left of the buffer
 vim.opt.number = true
+-- use relative numbering. Makes commands that take numbers of 
+-- lines _much_ easier
 vim.opt.relativenumber = true
 
+-- Make Tab -> 4 spaces work correctly
 vim.opt.smarttab = true
-vim.opt.swapfile = false
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
+
+-- Don't record a swapfile.
+vim.opt.swapfile = false
 
 -- I prefer the block cursor
 vim.opt.guicursor = ""
@@ -39,13 +61,12 @@ vim.g.editorconfig = true
 -- Magic to get autosuggestions in a little list besides the cursor
 vim.opt.completeopt = "menu,menuone,noselect"
 
+-- Get diagnostics (aka, "foobar.h not used"), but only for the currently selected line
 vim.diagnostic.config({ virtual_text = false, virtual_lines = { current_line = true }, })
-
-require'nvim-treesitter'.setup {}
 
 local telescope = require('telescope').setup({
 defaults = {
-    -- Dont want the preview pane
+    -- Dont want a separate pane with a preview
 	preview = false,
 	preview = {
 		hide_on_startup = true
@@ -55,22 +76,6 @@ defaults = {
     file_ignore_patterns = { "build", "libs" }
 }})
 
-        vim.g.vimwiki_list = {
-            {
-            path = '~/vimwiki',
-            syntax = 'markdown',
-            ext = '.md',
-            },
-        }
-vim.lsp.config('clangd', {})
-vim.lsp.enable('clangd')
-vim.lsp.config('rust_analyzer', {})
-vim.lsp.enable('rust_analyzer')
-vim.lsp.enable('basedpyright')
-vim.lsp.config('texlab', {})
-vim.lsp.enable('texlab')
-vim.lsp.enable('cmake')
-
 local builtin = require('telescope.builtin')
 -- /ff -> find in file names
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
@@ -79,6 +84,34 @@ vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 -- /fb -> find in open buffer names
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 
+-- Use vimwiki with markdown
+vim.g.vimwiki_list = {
+    {
+    path = '~/vimwiki',
+    syntax = 'markdown',
+    ext = '.md',
+    },
+}
+-- clangd, for C,C++
+vim.lsp.config('clangd', {})
+vim.lsp.enable('clangd')
+-- Rust
+vim.lsp.config('rust_analyzer', {})
+vim.lsp.enable('rust_analyzer')
+-- Python
+vim.lsp.enable('basedpyright')
+-- Texlab
+vim.lsp.config('texlab', {})
+vim.lsp.enable('texlab')
+-- R language R server
+-- requires
+-- install.packages("languageserver")
+vim.lsp.enable('r_language_server')
+-- cmake-language-server is currently broken with
+-- modern Pythons :(
+--vim.lsp.enable('cmake')
+
+-- set up autocomplete
 local cmp = require'cmp' 
 cmp.setup({
     snippet = {
@@ -91,6 +124,9 @@ cmp.setup({
       -- completion = cmp.config.window.bordered(),
       -- documentation = cmp.config.window.bordered(),
     },
+    -- autocomplete with enter to insert and Tab to cycle
+    -- through selections
+    -- TODO make entering a Tab less of a hassle
     mapping = cmp.mapping.preset.insert({
       ['<C-b>'] = cmp.mapping.scroll_docs(-4),
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
@@ -125,8 +161,12 @@ cmp.setup({
 })
 
 
+-- Give treesitter the beans
+require'nvim-treesitter'.setup {}
+
 require'nvim-treesitter'.install { 'rust', 'cpp', 'python'}
 
+-- Hook treesitter to the filetype
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { '<filetype>' },
   callback = function() vim.treesitter.start() end,
@@ -134,6 +174,7 @@ vim.api.nvim_create_autocmd('FileType', {
 
 require'otter'.setup{}
 
+-- Default quarto config from their README
 require('quarto').setup{
   debug = false,
   closePreviewOnExit = true,

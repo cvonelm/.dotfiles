@@ -1,7 +1,3 @@
-// Sort of minimalistic waybar config
-//
-// workspaces scratchpad and current playing song (using mediaplayer.py) on the left
-// clock battery (if existing) keyboard langauge and tray on the right
 {
     "spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
