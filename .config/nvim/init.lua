@@ -1,8 +1,6 @@
 -- This makes use of vim.pack, which is as of january 2026
 -- not in a neovim release, so this requires neovim from git
 
--- a little personal wiki
-vim.pack.add({"https://github.com/vimwiki/vimwiki"})
 -- better code parsing -> better highlighting
 vim.pack.add({"https://github.com/nvim-treesitter/nvim-treesitter"})
 -- a library of helpers. Used by telescope
@@ -84,14 +82,6 @@ vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 -- /fb -> find in open buffer names
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 
--- Use vimwiki with markdown
-vim.g.vimwiki_list = {
-    {
-    path = '~/vimwiki',
-    syntax = 'markdown',
-    ext = '.md',
-    },
-}
 -- clangd, for C,C++
 vim.lsp.config('clangd', {})
 vim.lsp.enable('clangd')
