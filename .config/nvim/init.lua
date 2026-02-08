@@ -150,15 +150,27 @@ cmp.setup({
     })
 })
 
-
 -- Give treesitter the beans
 require'nvim-treesitter'.setup {}
-
-require'nvim-treesitter'.install { 'rust', 'cpp', 'python'}
+require'nvim-treesitter'.install { 'rust', 'cpp', 'python', 'javascript', 'cmake' }
 
 -- Hook treesitter to the filetype
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { '<filetype>' },
+  pattern = { 'cpp' },
+  callback = function() vim.treesitter.start() end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'cmake' },
+  callback = function() vim.treesitter.start() end,
+})
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'rust' },
+  callback = function() vim.treesitter.start() end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'rust' },
   callback = function() vim.treesitter.start() end,
 })
 
