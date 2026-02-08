@@ -61,10 +61,9 @@ vim.opt.completeopt = "menu,menuone,noselect"
 -- Get diagnostics (aka, "foobar.h not used"), but only for the currently selected line
 vim.diagnostic.config({ virtual_text = false, virtual_lines = { current_line = true }, })
 
-local telescope = require('telescope').setup({
+require('telescope').setup({
 defaults = {
     -- Dont want a separate pane with a preview
-	preview = false,
 	preview = {
 		hide_on_startup = true
 	},
@@ -129,16 +128,7 @@ vim.lsp.config('lua_ls', {
         checkThirdParty = false,
         library = {
           vim.env.VIMRUNTIME,
-          -- Depending on the usage, you might want to add additional paths
-          -- here.
-          -- '${3rd}/luv/library',
-          -- '${3rd}/busted/library',
         },
-        -- Or pull in all of 'runtimepath'.
-        -- NOTE: this is a lot slower and will cause issues when working on
-        -- your own configuration.
-        -- See https://github.com/neovim/nvim-lspconfig/issues/3189
-        -- library = vim.api.nvim_get_runtime_file('', true),
       },
     })
   end,
@@ -150,7 +140,13 @@ vim.lsp.config('lua_ls', {
 vim.lsp.enable('lua_ls')
 
 -- set up autocomplete
-local cmp = require'cmp' 
+local has_words_before = function()
+  unpack = unpack or table.unpack
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+local cmp = require'cmp'
 cmp.setup({
     snippet = {
       -- REQUIRED - you must specify a snippet engine
