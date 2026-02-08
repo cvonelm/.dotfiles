@@ -24,7 +24,6 @@ vim.pack.add({"https://github.com/jmbuhr/otter.nvim"})
 -- support for the coolest way of interactively writing data
 -- analysis and text.
 vim.pack.add({"https://github.com/quarto-dev/quarto-nvim"})
-
 -- light colourscheme all the way
 vim.opt.background = "light"
 vim.cmd [[colorscheme  dayfox]]
@@ -99,7 +98,56 @@ vim.lsp.enable('texlab')
 vim.lsp.enable('r_language_server')
 -- cmake-language-server is currently broken with
 -- modern Pythons :(
---vim.lsp.enable('cmake')
+-- vim.lsp.enable('cmake')
+
+vim.lsp.config('lua_ls', {
+  on_init = function(client)
+    if client.workspace_folders then
+      local path = client.workspace_folders[1].name
+      if
+        path ~= vim.fn.stdpath('config')
+        and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc'))
+      then
+        return
+      end
+    end
+
+    client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most
+        -- likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+        -- Tell the language server how to find Lua modules same way as Neovim
+        -- (see `:h lua-module-load`)
+        path = {
+          'lua/?.lua',
+          'lua/?/init.lua',
+        },
+      },
+      -- Make the server aware of Neovim runtime files
+      workspace = {
+        checkThirdParty = false,
+        library = {
+          vim.env.VIMRUNTIME,
+          -- Depending on the usage, you might want to add additional paths
+          -- here.
+          -- '${3rd}/luv/library',
+          -- '${3rd}/busted/library',
+        },
+        -- Or pull in all of 'runtimepath'.
+        -- NOTE: this is a lot slower and will cause issues when working on
+        -- your own configuration.
+        -- See https://github.com/neovim/nvim-lspconfig/issues/3189
+        -- library = vim.api.nvim_get_runtime_file('', true),
+      },
+    })
+  end,
+  settings = {
+    Lua = {},
+  },
+})
+
+vim.lsp.enable('lua_ls')
 
 -- set up autocomplete
 local cmp = require'cmp' 
@@ -152,7 +200,7 @@ cmp.setup({
 
 -- Give treesitter the beans
 require'nvim-treesitter'.setup {}
-require'nvim-treesitter'.install { 'rust', 'cpp', 'python', 'javascript', 'cmake' }
+require'nvim-treesitter'.install { 'rust', 'cpp', 'python', 'javascript', 'cmake', 'lua' }
 
 -- Hook treesitter to the filetype
 vim.api.nvim_create_autocmd('FileType', {
@@ -171,6 +219,11 @@ vim.api.nvim_create_autocmd('FileType', {
 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { 'rust' },
+  callback = function() vim.treesitter.start() end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'lua' },
   callback = function() vim.treesitter.start() end,
 })
 
