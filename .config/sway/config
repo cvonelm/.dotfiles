@@ -171,8 +171,6 @@ client.focused #ffffff #ffffff #000000
 client.focused_inactive #ffffff #ffffff #000000
 client.unfocused #000000 #000000 #ffffff
 
-# Notifications
-exec swaync
 # Background image
 exec swww-daemon
 # Cycling through background images
